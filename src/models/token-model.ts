@@ -1,0 +1,3 @@
+interface TokenModel{
+    message : string
+}

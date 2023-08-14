@@ -4,24 +4,42 @@ import { fetchUser, loginService, registerService } from "../services/user-servi
 import 'bootstrap/dist/css/bootstrap.css';
 import './Login.css';
 import { SubmitHandler, useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 function Login() {
     const { register: login, handleSubmit: handleSubmitLogin, formState: { errors: loginError } } = useForm<LoginModel>();
+    const [isLogged, setIsLogged] = useState(false);
+    const [wrongPassword, setWrongPassword] = useState(false);
+    const navigate = useNavigate()
     const loginSubmit: SubmitHandler<LoginModel> = (data) => {
-        loginService(data).then(data => { localStorage.setItem("token", data.token) }).catch(err => console.log(err))
+        loginService(data)
+            .then(data => { localStorage.setItem("token", data.token); navigate('/main') }
+            ).catch(err => {setWrongPassword(true)})
     };
+    
+    const closeAlert = () => {
+        if(wrongPassword){
+            return ""
+        }else{
+            return "none"
+        }
+    }
     return (
-        <div className="App" style={{"overflowY":"hidden"}}>
+        <div className="App bodyBackGround" style={{ "overflowY": "hidden"}}>
+            <div className="alert" style={{ visibility : wrongPassword ? "visible" : "hidden"}}>
+                <span className="closebtn" onClick={() => {setWrongPassword(false)}}>&times;</span>
+                Kullanıcı Adı veya Parola Hatalı
+            </div>
             <div className="container">
                 <div className="screen">
                     <div className="screen__content">
                         <form className="login">
                             <div className="login__field">
                                 <i className="login__icon fa-solid fa-user"></i>
-                                <input type="text" className="login__input" {...login('username', {required : true})} placeholder="Kullanıcı Adı"/>
+                                <input type="text" className="login__input" {...login('username', { required: true })} placeholder="Kullanıcı Adı" />
                             </div>
                             <div className="login__field">
                                 <i className="login__icon fas fa-lock"></i>
-                                <input type="password" {...login('password', {required : true})} className="login__input" placeholder="Parola"/>
+                                <input type="password" {...login('password', { required: true })} className="login__input" placeholder="Parola" />
                             </div>
                             <button className="button login__submit" onClick={handleSubmitLogin(loginSubmit)}>
                                 <span className="button__text">Giriş Yap</span>

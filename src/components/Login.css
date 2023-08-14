@@ -7,9 +7,10 @@
 	font-family: Raleway, sans-serif;
 }
 
-body {
+.bodyBackGround{
 	background: linear-gradient(90deg, #C7C5F4, #776BCC);		
 }
+
 
 .container {
 	display: flex;
@@ -185,3 +186,41 @@ body {
 .social-login__icon:hover {
 	transform: scale(1.5);	
 }
+
+.alert {
+	padding: 20px;
+	width: 30%;
+	margin: 10px;
+	opacity: 0.9;
+	position: absolute;
+	right: 1px;
+	background-color: #d34c42; /* Red */
+	color: white;
+	margin-bottom: 15px;
+	transition: right 0.3s ease-in-out;
+  	animation: slideOut 3s 1 ease-in-out 1s forwards;
+  }
+  /*@keyframes slideOut {
+	0% {
+	  right: 1px;
+	}
+	100% {
+	  right: -100%;
+	}
+  }*/
+  /* The close button */
+  .closebtn {
+	margin-left: 15px;
+	color: white;
+	font-weight: bold;
+	float: right;
+	font-size: 22px;
+	line-height: 20px;
+	cursor: pointer;
+	transition: 0.3s;
+  }
+  
+  /* When moving the mouse over the close button */
+  .closebtn:hover {
+	color: black;
+  }

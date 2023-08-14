@@ -12,7 +12,7 @@ function Register() {
         }
     }
     return (
-        <div className='App' style={{ "overflowY": "hidden" }}>
+        <div className='App bodyBackGround' style={{ "overflowY": "hidden" }}>
             <div className="container">
                 <div className="screen">
                     <div className="screen__content">
