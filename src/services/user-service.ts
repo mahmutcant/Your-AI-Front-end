@@ -1,3 +1,4 @@
+import { useDispatch } from 'react-redux';
 import defaultUrl from '../baseURL.json';
 import axios  from 'axios';
 export const baseURL = defaultUrl.baseUrl;
@@ -45,13 +46,14 @@ export async function registerService(user : UserDTO) {
         return err
     }
 }
-export async function validatorService() {
+
+export async function getUserInfo() {
     try{
         const response = await axios({
             method : "GET",
             url : `${baseURL}/getuserinfo`,
             headers : {
-                Authorization : `Bearer ${localStorage.getItem("token")}`
+                "Authorization" : `Bearer ${localStorage.getItem("token")}`
             }
         })
         return response.data

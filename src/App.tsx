@@ -5,6 +5,7 @@ import { Route, Routes } from 'react-router-dom';
 import Register from './components/Register';
 import MainPage from './components/MainPage';
 import { Provider } from 'react-redux';
+import Profile from './components/Profile';
 
 
 function App() {
@@ -15,7 +16,7 @@ function App() {
         <Route path='/' element={<Login/>}/>
         <Route path='/register' element={<Register/>}/>
         <Route path='/main' element={<MainPage/>}/>
-        <Route path='/main/profile' element={""} />
+        <Route path='/main/profile' element={<Profile/>} />
         <Route path='/main/mymodels' element={""} />
       </Routes>
     </div>

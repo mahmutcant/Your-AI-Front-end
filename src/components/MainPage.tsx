@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { validatorService } from "../services/user-service";
 import { useNavigate } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import { useSelector } from "react-redux";
