@@ -6,7 +6,6 @@ import { useSelector } from "react-redux";
 function MainPage(){
     const navigate = useNavigate()
     return(
-        
         <div className="App" style={{"background":"linear-gradiend"}}>
                 <Sidebar/>
         </div>
