@@ -17,7 +17,7 @@
 .screen {		
 	background: linear-gradient(90deg, #5D54A4, #7C78B8);		
 	position: relative;	
-	height: 600px;
+	height: 700px;
 	width: 360px;	
 	box-shadow: 0px 0px 24px #5C5696;
 }
@@ -40,17 +40,17 @@
 }
 
 .screen__background__shape {
-	transform: rotate(45deg);
+	transform: rotate(27deg);
 	position: absolute;
 }
 
 .screen__background__shape1 {
-	height: 520px;
-	width: 520px;
+	height: 700px;
+	width: 700px;
 	background: #FFF;	
 	top: -50px;
-	right: 120px;	
-	border-radius: 0 72px 0 0;
+	right: 95px;
+	border-radius: 0 80px 0 0;
 }
 .tologin{
     position: absolute;

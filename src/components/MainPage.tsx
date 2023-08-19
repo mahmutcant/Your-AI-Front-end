@@ -6,13 +6,6 @@ import { useSelector } from "react-redux";
 
 function MainPage(){
     const navigate = useNavigate()
-    const [message,setMessage] = useState<TokenModel | null>(null);
-    useEffect(() => {
-        validatorService()
-            .then((data) => setMessage(data))
-            .catch(err => {navigate("/")})
-    }, []);
-    
     return(
         
         <div className="App" style={{"background":"linear-gradiend"}}>

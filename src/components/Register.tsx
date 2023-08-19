@@ -3,8 +3,8 @@ import './Register.css';
 import { error } from 'console';
 import { registerService } from '../services/user-service';
 function Register() {
-    const { register: register, handleSubmit: handleSubmitRegister, formState: { errors: registerError } } = useForm<User>();
-    const registerSubmit: SubmitHandler<User> = (data) => {
+    const { register: register, handleSubmit: handleSubmitRegister, formState: { errors: registerError } } = useForm<UserDTO>();
+    const registerSubmit: SubmitHandler<UserDTO> = (data) => {
         if (data.password === data.passwordRepeat) {
             registerService(data)
         } else {
@@ -17,6 +17,20 @@ function Register() {
                 <div className="screen">
                     <div className="screen__content">
                         <form className="register">
+                        <div className="login__field">
+                                <i className="login__icon fas fa-user"></i>
+                                <input type="text" className="login__input" {...register('name', { required: true, maxLength: 20 })} placeholder="Ad" />
+                            </div>
+                            {registerError.username && (
+                                    <span>Geçersiz Kullanıcı Adı</span>
+                                )}
+                                <div className="login__field">
+                                <i className="login__icon fas fa-user"></i>
+                                <input type="text" className="login__input" {...register('surname', { required: true, maxLength: 20 })} placeholder="Soyad" />
+                            </div>
+                            {registerError.username && (
+                                    <span>Geçersiz Kullanıcı Adı</span>
+                                )}
                             <div className="login__field">
                                 <i className="login__icon fas fa-user"></i>
                                 <input type="text" className="login__input" {...register('username', { required: true, maxLength: 20 })} placeholder="Kullanıcı Adı" />

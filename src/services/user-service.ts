@@ -27,12 +27,14 @@ export async function loginService(user : LoginModel) {
         throw err
     }
 }
-export async function registerService(user : User) {
+export async function registerService(user : UserDTO) {
     try{
         const response = await axios({
             method : "POST",
             url : `${baseURL}/register`,
             data : {
+                "name" : user.name,
+                "surname" : user.surname,
                 "username" : user.username,
                 "password" : user.password,
                 "email" : user.email
@@ -47,13 +49,13 @@ export async function validatorService() {
     try{
         const response = await axios({
             method : "GET",
-            url : `${baseURL}/protected`,
+            url : `${baseURL}/getuserinfo`,
             headers : {
                 Authorization : `Bearer ${localStorage.getItem("token")}`
             }
         })
         return response.data
     }catch(err){
-        return err
+        throw err
     }
 }
