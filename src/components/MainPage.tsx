@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { validatorService } from "../services/user-service";
-import { stringify } from "querystring";
 import { useNavigate } from "react-router-dom";
-import Layout from "./Layout";
+import Sidebar from "./Sidebar";
+import { useSelector } from "react-redux";
 
 function MainPage(){
     const navigate = useNavigate()
@@ -12,11 +12,11 @@ function MainPage(){
             .then((data) => setMessage(data))
             .catch(err => {navigate("/")})
     }, []);
+    
     return(
-        <div className="App">
-             <Layout>
-             {message && <p>{message.message}</p>}
-             </Layout>
+        
+        <div className="App" style={{"background":"linear-gradiend"}}>
+                <Sidebar/>
         </div>
     )
 }
