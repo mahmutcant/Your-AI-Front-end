@@ -32,4 +32,19 @@
   .card-value {
     flex: 2;
     text-align: right;
+    border: 0.1px solid #776BCC;
+    background: transparent;
+    font-weight: bold;
+  }
+  .profile_icon{
+    margin-left: 10px;
+  }
+  .profile_icon:hover{
+    cursor: pointer;
+  }
+  .save_button{
+    margin-top: 20px;
+    border-radius: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-weight: bold;
   }
