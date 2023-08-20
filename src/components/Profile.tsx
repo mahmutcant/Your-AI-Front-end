@@ -4,6 +4,7 @@ import Sidebar from "./Sidebar";
 import { useNavigate } from "react-router-dom";
 import './Profile.css'
 import { SubmitHandler, useForm } from "react-hook-form";
+import { updateUserInfo } from "../services/user-service";
 function Profile() {
     const { register: saveChanges, handleSubmit: handleSubmitRegister, formState: { errors: registerError } } = useForm<User>();
     const user = useSelector((state: AppState) => state.user);
@@ -22,7 +23,7 @@ function Profile() {
         if(data.email === ""){
             data.email = user!.email
         }
-        console.log(data)
+        updateUserInfo(data)
     }
     return (
         <div className="App" style={{ "background": "linear-gradiend" }}>

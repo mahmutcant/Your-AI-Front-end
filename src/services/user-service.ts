@@ -61,3 +61,20 @@ export async function getUserInfo() {
         throw err
     }
 }
+
+export async function updateUserInfo(userInfo : User) {
+    try{
+        const response = await axios({
+            method : "PUT",
+            url : `${baseURL}/changeuserinfo`,
+            data : userInfo,
+            headers : {
+                "Authorization" : `Bearer ${localStorage.getItem("token")}`
+            }
+        })
+        return response.data
+    }
+    catch(err){
+        throw err
+    }
+}
