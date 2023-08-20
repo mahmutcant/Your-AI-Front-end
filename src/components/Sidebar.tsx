@@ -15,7 +15,7 @@ const Sidebar = () => {
         const userData = await getUserInfo();
         dispatch(setUser(userData));
       } catch (error) {
-        console.error('Error fetching user data:', error);
+        navigate('/')
       }
     }
     if (!user) {
@@ -33,7 +33,6 @@ const Sidebar = () => {
         {Object.values(sidebarItems).map((item,index) => (
             <Link key={item.to} to={`/main/${item.to}`}>
             <div key={item.text} className="link_text">{item.text}</div>
-
           </Link>
         ))}
       </nav>

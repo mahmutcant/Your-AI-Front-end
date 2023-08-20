@@ -14,18 +14,22 @@ function Profile() {
                     <div className="card-item">
                         <div className="card-key">Ad:</div>
                         <div className="card-value">{user?.name}</div>
+                        <i className="profile_icon fa-solid fa-pencil"></i>
                     </div>
                     <div className="card-item">
                         <div className="card-key">Soyad:</div>
                         <div className="card-value">{user?.surname}</div>
+                        <i className="profile_icon fa-solid fa-pencil"></i>
                     </div>
                     <div className="card-item">
                         <div className="card-key">Kullanıcı Adı:</div>
                         <div className="card-value">{user?.username}</div>
+                        <i className="profile_icon fa-solid fa-pencil"></i>
                     </div>
                     <div className="card-item">
                         <div className="card-key">E-mail:</div>
                         <div className="card-value">{user?.email}</div>
+                        <i className="profile_icon fa-solid fa-pencil"></i>
                     </div>
                 </div>
             </div>
