@@ -15,7 +15,7 @@ const Sidebar = () => {
         const userData = await getUserInfo();
         dispatch(setUser(userData));
       } catch (error) {
-        navigate('/')
+        //navigate('/')
       }
     }
     if (!user) {

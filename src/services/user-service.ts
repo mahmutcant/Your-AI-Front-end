@@ -83,7 +83,10 @@ export async function changePassword(passwordModel : PasswordModel) {
         const response = await axios({
             method : "PUT",
             url : `${baseURL}/changepassword`,
-            data : passwordModel.newPassword,
+            data : {
+                "password" : passwordModel.oldPassword,
+                "newPassword" : passwordModel.newPassword
+            },
             headers : {
                 "Authorization" : `Bearer ${localStorage.getItem("token")}`
             }
