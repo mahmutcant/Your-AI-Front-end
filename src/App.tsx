@@ -1,15 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
 import Login from './components/Login';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import Register from './components/Register';
 import MainPage from './components/MainPage';
-import { Provider } from 'react-redux';
 import Profile from './components/Profile';
 
-
 function App() {
-  const navbarItems = ['Anasayfa', 'Hakkımızda', 'Hizmetler', 'İletişim'];
+  
   return (
     <div className="App">
       <Routes>

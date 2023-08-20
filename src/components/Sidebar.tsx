@@ -35,6 +35,9 @@ const Sidebar = () => {
             <div key={item.text} className="link_text">{item.text}</div>
           </Link>
         ))}
+        <button className='link_text' onClick={() => {localStorage.clear() ; window.location.reload()}}>
+            Çıkış Yap
+          </button>
       </nav>
     );
   };

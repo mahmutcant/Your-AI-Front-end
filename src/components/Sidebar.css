@@ -11,7 +11,7 @@
     z-index: 1;
   }
   
-  #navbar a {
+  #navbar a{
     display: flex;
     align-items: center;
     color: #fff;
@@ -19,7 +19,23 @@
     padding: 0 20px;
     height: 100%;
   }
-  
+  #navbar button{
+    display: flex;
+    align-items: center;
+    border: none;
+    background-color: transparent;
+    color: #fff;
+    text-decoration: none;
+    padding: 0 20px;
+    
+  }
+  #navbar button:hover {
+    height: 50%;
+    border-radius: 50px;
+    background-color: #fff;
+    color: #776BCC;
+    transition: background-color 0.8s;
+  }
   #navbar a:hover {
     height: 50%;
     border-radius: 50px;
