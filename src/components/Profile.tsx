@@ -23,16 +23,10 @@ function Profile() {
         setIsModalOpen(false);
     };
     const savePasswordChangesSubmit: SubmitHandler<PasswordModel> = (data) => {
-        if (data.oldPassword === user!.password) {
-            if((data.newPassword === data.newPasswordRepeat) && data.newPassword.length > 1){
-                setChangePasswordAlert(0)
-                debugger
-                changePassword(data)
-            }else{
-                setChangePasswordAlert(1)
-            }
-        } else {
-            setChangePasswordAlert(2)
+        try{
+            changePassword(data)
+        }catch(err){
+            
         }
     }
     const saveChangesSubmit: SubmitHandler<User> = (data) => {
