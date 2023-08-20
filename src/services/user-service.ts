@@ -78,3 +78,19 @@ export async function updateUserInfo(userInfo : User) {
         throw err
     }
 }
+export async function changePassword(passwordModel : PasswordModel) {
+    try{
+        const response = await axios({
+            method : "PUT",
+            url : `${baseURL}/changepassword`,
+            data : passwordModel.newPassword,
+            headers : {
+                "Authorization" : `Bearer ${localStorage.getItem("token")}`
+            }
+        })
+        return response.data
+    }
+    catch(err){
+        throw err
+    }
+}

@@ -3,27 +3,58 @@ import { AppState } from "../store/types"
 import Sidebar from "./Sidebar";
 import { useNavigate } from "react-router-dom";
 import './Profile.css'
+import Modal from 'react-modal';
 import { SubmitHandler, useForm } from "react-hook-form";
-import { updateUserInfo } from "../services/user-service";
+import { changePassword, updateUserInfo } from "../services/user-service";
+import { useState } from "react";
 function Profile() {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [changePasswordAlert, setChangePasswordAlert] = useState(0);
     const { register: saveChanges, handleSubmit: handleSubmitRegister, formState: { errors: registerError } } = useForm<User>();
+    const { register: savePasswordChanges, handleSubmit: handlePasswordChange, formState: { errors: changePasswordError } } = useForm<PasswordModel>();
     const user = useSelector((state: AppState) => state.user);
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+
+    const openModal = () => {
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+    };
+    const savePasswordChangesSubmit: SubmitHandler<PasswordModel> = (data) => {
+        if (data.oldPassword === user!.password) {
+            if((data.newPassword === data.newPasswordRepeat) && data.newPassword.length > 1){
+                setChangePasswordAlert(0)
+                debugger
+                changePassword(data)
+            }else{
+                setChangePasswordAlert(1)
+            }
+        } else {
+            setChangePasswordAlert(2)
+        }
+    }
     const saveChangesSubmit: SubmitHandler<User> = (data) => {
         //registerService(data)
-        if(data.name === ""){
+        if (data.name === "") {
             data.name = user!.name
         }
-        if(data.surname === ""){
+        if (data.surname === "") {
             data.surname = user!.surname
         }
-        if(data.username === ""){
+        if (data.username === "") {
             data.username = user!.username
         }
-        if(data.email === ""){
+        if (data.email === "") {
             data.email = user!.email
         }
-        updateUserInfo(data)
+        try {
+            updateUserInfo(data)
+            window.location.reload()
+        } catch {
+            navigate("/")
+        }
     }
     return (
         <div className="App" style={{ "background": "linear-gradiend" }}>
@@ -50,6 +81,36 @@ function Profile() {
                         <input className="card-value" defaultValue={user?.email}
                             {...saveChanges('email')} />
                     </div>
+                    <button className="btn btn-warning save_button" onClick={openModal}>Parola değiştir</button>
+                    <Modal
+                        isOpen={isModalOpen}
+                        onRequestClose={closeModal}
+                        contentLabel="Pop-up Menü"
+                        className="custom-modal"
+                        overlayClassName="custom-overlay"
+                    >
+                        <div className="card alert-card" style={{"visibility": changePasswordAlert === 2 ? "visible" : "hidden"}}>Hatalı Şifre Girdiniz</div>
+                        <div className="card alert-card" style={{"visibility": changePasswordAlert === 1 ? "visible" : "hidden"}}>Şifreler Uyuşmamaktadır</div>
+                        <input className="form-control modal-input" type="password"
+                            {...savePasswordChanges('oldPassword' , { required: true, minLength:4})} placeholder="Şifreniz" />
+                            {changePasswordError.oldPassword && (
+                                    <span>Geçersiz Şifre Tekrarı</span>
+                                )}
+                        <input className="form-control modal-input" type="password"
+                            {...savePasswordChanges('newPassword', { required: true, minLength:4})} placeholder="Yeni Şifreniz"/>
+                            {changePasswordError.newPassword && (
+                                    <span>Geçersiz Şifre Tekrarı</span>
+                                )}
+                        <input className="form-control modal-input" type="password"
+                            {...savePasswordChanges('newPasswordRepeat', { required: true, minLength:4})}
+                            placeholder="Yeni Şifre Tekrarı"/>
+                            {changePasswordError.newPasswordRepeat && (
+                                    <span>Geçersiz Şifre Tekrarı</span>
+                                )}
+                        <button className="btn btn-success save_button popup_button" style={{ "width": "90%" }}
+                        onClick={() => handlePasswordChange(savePasswordChangesSubmit)()}>Değişiklikleri Kaydet</button>
+                        <button className="btn btn-primary save_button popup_button" style={{ "width": "90%", "marginBottom":"30px"}} onClick={closeModal}>Kapat</button>
+                    </Modal>
                     <button className="btn btn-primary save_button" onClick={() => handleSubmitRegister(saveChangesSubmit)()}>Değişiklikleri Kaydet</button>
                 </div>
             </div>

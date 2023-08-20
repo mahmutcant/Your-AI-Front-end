@@ -48,3 +48,51 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     font-weight: bold;
   }
+  .custom-overlay {
+    background-color: rgba(0, 0, 0, 0.5);
+    transition: background-color 0.3s ease-in-out;
+  }
+  .custom-modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    outline: none;
+    width: 400px;
+    border-radius: 10px;
+    height: auto;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+  }
+  
+  .custom-modal.ReactModal__Content--after-open {
+    opacity: 1;
+  }
+  
+  .custom-modal.ReactModal__Content--before-close {
+    opacity: 0;
+  }
+  .modal-input{
+    width: 60%;
+    margin: 10px;
+    border: 1px solid black;
+  }
+  .alert-card {
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    background-color: red;
+    color: white;
+    margin: 0 auto;
+    width: 90%;
+    display: flex;
+    align-items: center;
+    margin-top: 30px;
+  }
