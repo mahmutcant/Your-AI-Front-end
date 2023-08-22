@@ -3,42 +3,44 @@ import { useNavigate } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import { useSelector } from "react-redux";
 import Papa from 'papaparse';
-function MainPage(){
+import './MainPage.css'
+function MainPage() {
     const navigate = useNavigate()
     const [csvData, setCsvData] = useState<string[][]>([]);
     const [errorMessage, setErrorMessage] = useState<string>('');
     const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
-    
+
         if (file) {
-          if (file.type !== 'text/csv') {
-            setErrorMessage('Lütfen sadece CSV dosyası seçin.');
-            return;
-          }
-    
-          try {
-            const parsedData = await parseCsvFile(file);
-            if (parsedData) {
-              sendJsonDataToServer(parsedData);
+            if (file.type !== 'text/csv') {
+                setErrorMessage('Lütfen sadece CSV dosyası seçin.');
+                return;
             }
-          } catch (error) {
-            console.error('CSV dönüştürme hatası:', error);
-          }
+
+            try {
+                const parsedData = await parseCsvFile(file);
+                if (parsedData) {
+                    setCsvData(parsedData)
+                    sendJsonDataToServer(parsedData);
+                }
+            } catch (error) {
+                console.error('CSV dönüştürme hatası:', error);
+            }
         }
-      };
-      const parseCsvFile = (file: File): Promise<string[][]> => {
+    };
+    const parseCsvFile = (file: File): Promise<string[][]> => {
         return new Promise((resolve) => {
-          Papa.parse(file, {
-            complete: (result) => {
-              const parsedData: string[][] = result.data as string[][];
-              resolve(parsedData);
-            },
-          });
+            Papa.parse(file, {
+                complete: (result) => {
+                    const parsedData: string[][] = result.data as string[][];
+                    resolve(parsedData);
+                },
+            });
         });
-      };
-    
-      const sendJsonDataToServer = (jsonData: string[][]) => {
-        
+    };
+
+    const sendJsonDataToServer = (jsonData: string[][]) => {
+
         /*fetch('/your-server-endpoint', {
           method: 'POST',
           headers: {
@@ -50,22 +52,49 @@ function MainPage(){
           })
           .catch((error) => {
           });*/
-          console.log(jsonData)
-      };
-    return(
-        <div className="App" style={{"background":"linear-gradiend"}}>
-                <Sidebar/>
-                <div className="card">
-                    <div className="card-header bg-transparent border-0 d-flex justify-content-center">
-                        CSV Formatlı Veri
-                    </div>
-                    <div className="card-body">
-                        <label htmlFor="formFileMultiple" className="form-label">Multiple files input example</label>
-                        <input className="form-control" type="file" accept=".csv" id="formFileMultiple" onChange={handleFileChange}/>
-                        {errorMessage  && <p style={{"color":"red"}}>{errorMessage}</p>}
-                    </div>
+        console.log(jsonData)
+    };
+    return (
+        <div className="App" style={{ "background": "linear-gradiend" }}>
+            <Sidebar />
+            <div className="card file-upload-card">
+                <div className="card-header bg-transparent border-0 d-flex justify-content-center">
+                    Veri Seti Yükleme Alanı
                 </div>
-        </div>
+                <div className="card-body">
+                    <label htmlFor="formFileMultiple" className="form-label">CSV dosyası yükleyin</label>
+                    <input className="form-control" type="file" accept=".csv" id="formFileMultiple" onChange={handleFileChange} />
+                    {errorMessage && <p style={{ "color": "red" }}>{errorMessage}</p>}
+                </div>
+            </div>
+            <section>
+                <h1>Fixed Table header</h1>
+                <div className="tbl-header">
+                    <table cellPadding={0} cellSpacing="0" border={0}>
+                        <thead>
+                            <tr>
+                                {csvData.length > 0 && csvData[0].map((header, index) => (
+                                    <th key={index}>{header}</th>
+                                ))}
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+                <div className="tbl-content">
+                    <table cellPadding="0" cellSpacing="0" border={0}>
+                        <tbody>
+                            {csvData.slice(1).map((row, rowIndex) => (
+                                <tr key={rowIndex}>
+                                    {Object.values(row).map((cell, cellIndex) => (
+                                        <td key={cellIndex}>{cell}</td>
+                                    ))}
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div >
     )
 }
 export default MainPage;
