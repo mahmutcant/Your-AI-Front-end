@@ -8,10 +8,12 @@ function MainPage() {
     const navigate = useNavigate()
     const [csvData, setCsvData] = useState<string[][]>([]);
     const [errorMessage, setErrorMessage] = useState<string>('');
+    const [csvDataName, setCsvDataName] = useState<string>();
     const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
 
         if (file) {
+            setCsvDataName(file.name)
             if (file.type !== 'text/csv') {
                 setErrorMessage('Lütfen sadece CSV dosyası seçin.');
                 return;
@@ -38,7 +40,9 @@ function MainPage() {
             });
         });
     };
-
+    const limitTextLength = (text: string, maxLength: number) => {
+        return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
+      };
     const sendJsonDataToServer = (jsonData: string[][]) => {
 
         /*fetch('/your-server-endpoint', {
@@ -67,14 +71,14 @@ function MainPage() {
                     {errorMessage && <p style={{ "color": "red" }}>{errorMessage}</p>}
                 </div>
             </div>
-            <section>
-                <h1>Fixed Table header</h1>
+            {csvData.length > 0 ? <section>
+                <h1>{csvDataName?.replace('.csv',"")}</h1>
                 <div className="tbl-header">
                     <table cellPadding={0} cellSpacing="0" border={0}>
                         <thead>
                             <tr>
                                 {csvData.length > 0 && csvData[0].map((header, index) => (
-                                    <th key={index}>{header}</th>
+                                    <th key={index} title={header}>{limitTextLength(header,10)}</th>
                                 ))}
                             </tr>
                         </thead>
@@ -86,14 +90,15 @@ function MainPage() {
                             {csvData.slice(1).map((row, rowIndex) => (
                                 <tr key={rowIndex}>
                                     {Object.values(row).map((cell, cellIndex) => (
-                                        <td key={cellIndex}>{cell}</td>
+                                        <td key={cellIndex} title={cell}>{limitTextLength(cell, 8)}</td>
                                     ))}
                                 </tr>
                             ))}
                         </tbody>
                     </table>
                 </div>
-            </section>
+            </section> : <div></div>}
+            
         </div >
     )
 }
