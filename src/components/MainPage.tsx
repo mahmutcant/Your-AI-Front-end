@@ -23,6 +23,8 @@ function MainPage() {
                 const parsedData = await parseCsvFile(file);
                 if (parsedData) {
                     setCsvData(parsedData)
+                    localStorage.setItem('selectedcsv', JSON.stringify(parsedData))
+                    localStorage.setItem('selectedcsvName', file.name)
                     sendJsonDataToServer(parsedData);
                 }
             } catch (error) {
@@ -30,6 +32,14 @@ function MainPage() {
             }
         }
     };
+    useEffect(() => {
+        const storedCsvData = localStorage.getItem("selectedcsv")
+        const storedCsvName = localStorage.getItem("selectedcsvName")
+        if(storedCsvData && storedCsvName){
+            setCsvData(JSON.parse(storedCsvData))
+            setCsvDataName(storedCsvName)
+        }
+    }, [])
     const parseCsvFile = (file: File): Promise<string[][]> => {
         return new Promise((resolve) => {
             Papa.parse(file, {
@@ -42,7 +52,7 @@ function MainPage() {
     };
     const limitTextLength = (text: string, maxLength: number) => {
         return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
-      };
+    };
     const sendJsonDataToServer = (jsonData: string[][]) => {
 
         /*fetch('/your-server-endpoint', {
@@ -72,13 +82,13 @@ function MainPage() {
                 </div>
             </div>
             {csvData.length > 0 ? <section>
-                <h1>{csvDataName?.replace('.csv',"")}</h1>
+                <h1>{csvDataName?.replace('.csv', "")}</h1>
                 <div className="tbl-header">
                     <table cellPadding={0} cellSpacing="0" border={0}>
                         <thead>
                             <tr>
                                 {csvData.length > 0 && csvData[0].map((header, index) => (
-                                    <th key={index} title={header}>{limitTextLength(header,10)}</th>
+                                    <th key={index} title={header}>{limitTextLength(header, 10)}</th>
                                 ))}
                             </tr>
                         </thead>
@@ -98,7 +108,7 @@ function MainPage() {
                     </table>
                 </div>
             </section> : <div></div>}
-            
+
         </div >
     )
 }
