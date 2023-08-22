@@ -52,15 +52,22 @@ h1{
   
   @import url(https://fonts.googleapis.com/css?family=Roboto:400,500,300,700);
   
-  section{
-    width: 60%;
+  .csv-table{
+    width: 65%;
     position: absolute;
     right: 10px;
-    margin: 50px;
+    top : -30px;
   }
-  
-  
-  /* follow me template */
+  .train-button{
+    margin-top: 10px;
+    width: 100%;
+    border: none;
+    background-color: #776BCC;
+    transition: background-color 2s ease-out 100ms
+  }
+  .train-button:hover{
+    background-color:#C7C5F4;
+  }
   .made-with-love {
     margin-top: 40px;
     padding: 10px;
@@ -84,9 +91,7 @@ h1{
   .made-with-love a:hover {
     text-decoration: underline;
   }
-  
-  
-  /* for custom scrollbar for webkit browser*/
+
   
   ::-webkit-scrollbar {
       width: 6px;
@@ -96,4 +101,22 @@ h1{
   } 
   ::-webkit-scrollbar-thumb {
       -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+  }
+  .custom-modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    outline: none;
+    width: 800px;
+    border-radius: 10px;
+    height: auto;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
   }

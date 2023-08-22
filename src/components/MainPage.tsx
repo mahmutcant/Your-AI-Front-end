@@ -3,12 +3,14 @@ import { useNavigate } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import { useSelector } from "react-redux";
 import Papa from 'papaparse';
-import './MainPage.css'
+import './MainPage.css';
+import Modal from 'react-modal';
 function MainPage() {
     const navigate = useNavigate()
     const [csvData, setCsvData] = useState<string[][]>([]);
     const [errorMessage, setErrorMessage] = useState<string>('');
     const [csvDataName, setCsvDataName] = useState<string>();
+    const [isModelOpen,setIsModelOpen] = useState<boolean>(false);
     const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
 
@@ -25,7 +27,6 @@ function MainPage() {
                     setCsvData(parsedData)
                     localStorage.setItem('selectedcsv', JSON.stringify(parsedData))
                     localStorage.setItem('selectedcsvName', file.name)
-                    sendJsonDataToServer(parsedData);
                 }
             } catch (error) {
                 console.error('CSV dönüştürme hatası:', error);
@@ -35,7 +36,7 @@ function MainPage() {
     useEffect(() => {
         const storedCsvData = localStorage.getItem("selectedcsv")
         const storedCsvName = localStorage.getItem("selectedcsvName")
-        if(storedCsvData && storedCsvName){
+        if (storedCsvData && storedCsvName) {
             setCsvData(JSON.parse(storedCsvData))
             setCsvDataName(storedCsvName)
         }
@@ -55,18 +56,6 @@ function MainPage() {
     };
     const sendJsonDataToServer = (jsonData: string[][]) => {
 
-        /*fetch('/your-server-endpoint', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(jsonData),
-        })
-          .then((response) => {
-          })
-          .catch((error) => {
-          });*/
-        console.log(jsonData)
     };
     return (
         <div className="App" style={{ "background": "linear-gradiend" }}>
@@ -80,36 +69,60 @@ function MainPage() {
                     <input className="form-control" type="file" accept=".csv" id="formFileMultiple" onChange={handleFileChange} />
                     {errorMessage && <p style={{ "color": "red" }}>{errorMessage}</p>}
                 </div>
+                <div className="card-footer">
+                    <button className="btn btn-lg btn-primary train-button"
+                    onClick={() => {setIsModelOpen(true)}}
+                    disabled={csvData.length > 0 ? false:true}
+                    >Modeli Eğit</button>
+                </div>
             </div>
-            {csvData.length > 0 ? <section>
-                <h1>{csvDataName?.replace('.csv', "")}</h1>
-                <div className="tbl-header">
-                    <table cellPadding={0} cellSpacing="0" border={0}>
-                        <thead>
-                            <tr>
-                                {csvData.length > 0 && csvData[0].map((header, index) => (
-                                    <th key={index} title={header}>{limitTextLength(header, 10)}</th>
-                                ))}
-                            </tr>
-                        </thead>
-                    </table>
-                </div>
-                <div className="tbl-content">
-                    <table cellPadding="0" cellSpacing="0" border={0}>
-                        <tbody>
-                            {csvData.slice(1).map((row, rowIndex) => (
-                                <tr key={rowIndex}>
-                                    {Object.values(row).map((cell, cellIndex) => (
-                                        <td key={cellIndex} title={cell}>{limitTextLength(cell, 8)}</td>
+            <div className="container csv-table">
+                <div className="row">
+                    {csvData.length > 0 ? <section>
+                        <h1>{csvDataName?.replace('.csv', "")} Veri Seti</h1>
+                        <div className="tbl-header">
+                            <table cellPadding={0} cellSpacing="0" border={0}>
+                                <thead>
+                                    <tr>
+                                        {csvData.length > 0 && csvData[0].map((header, index) => (
+                                            <th key={index} title={header}>{limitTextLength(header, 10)}</th>
+                                        ))}
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <div className="tbl-content">
+                            <table cellPadding="0" cellSpacing="0" border={0}>
+                                <tbody>
+                                    {csvData.slice(1).map((row, rowIndex) => (
+                                        <tr key={rowIndex}>
+                                            {Object.values(row).map((cell, cellIndex) => (
+                                                <td key={cellIndex} title={cell}>{limitTextLength(cell, 8)}</td>
+                                            ))}
+                                        </tr>
                                     ))}
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section> : <div></div>}
                 </div>
-            </section> : <div></div>}
-
-        </div >
+            </div>
+            <Modal
+            isOpen={isModelOpen}
+            contentLabel="Pop-up Menü"
+            className="custom-modal"
+            overlayClassName="custom-overlay">
+                <div className="card">
+                    <div className="card-header">
+                        Model Eğitimi
+                    </div>
+                    <div className="card-body">
+                        Model Inputları
+                    </div>
+                    <button className="btn btn-primary" onClick={() => {setIsModelOpen(false)}}>Kapat</button>
+                </div>
+            </Modal>
+        </div>
     )
 }
 export default MainPage;
