@@ -58,7 +58,7 @@ function MainPage() {
 
     };
     return (
-        <div className="App" style={{ "background": "linear-gradiend" }}>
+        <div className="App" style={{ "background": "linear-gradiend"}}>
             <Sidebar />
             <div className="card file-upload-card">
                 <div className="card-header bg-transparent border-0 d-flex justify-content-center">
@@ -66,7 +66,7 @@ function MainPage() {
                 </div>
                 <div className="card-body">
                     <label htmlFor="formFileMultiple" className="form-label">CSV dosyası yükleyin</label>
-                    <input className="form-control" type="file" accept=".csv" id="formFileMultiple" onChange={handleFileChange} />
+                    <input className="form-control" type="file" accept=".csv" id="formFileMultiple" onChange={handleFileChange} disabled={isModelOpen}/>
                     {errorMessage && <p style={{ "color": "red" }}>{errorMessage}</p>}
                 </div>
                 <div className="card-footer">
@@ -78,10 +78,10 @@ function MainPage() {
             </div>
             <div className="container csv-table">
                 <div className="row">
-                    {csvData.length > 0 ? <section>
+                    {csvData.length > 0 ? <section >
                         <h1>{csvDataName?.replace('.csv', "")} Veri Seti</h1>
                         <div className="tbl-header">
-                            <table cellPadding={0} cellSpacing="0" border={0}>
+                            <table cellPadding={0} cellSpacing="0" border={0} >
                                 <thead>
                                     <tr>
                                         {csvData.length > 0 && csvData[0].map((header, index) => (
@@ -91,7 +91,7 @@ function MainPage() {
                                 </thead>
                             </table>
                         </div>
-                        <div className="tbl-content">
+                        <div className="tbl-content" style={{"overflow": isModelOpen ? "hidden":"revert-layer"}}>
                             <table cellPadding="0" cellSpacing="0" border={0}>
                                 <tbody>
                                     {csvData.slice(1).map((row, rowIndex) => (
@@ -112,12 +112,12 @@ function MainPage() {
             contentLabel="Pop-up Menü"
             className="custom-modal"
             overlayClassName="custom-overlay">
-                <div className="card">
+                <div className="card m-4">
                     <div className="card-header">
                         Model Eğitimi
                     </div>
                     <div className="card-body">
-                        Model Inputları
+                        Model Eğitim Input alanalrı
                     </div>
                     <button className="btn btn-primary" onClick={() => {setIsModelOpen(false)}}>Kapat</button>
                 </div>
