@@ -5,12 +5,18 @@ import { useSelector } from "react-redux";
 import Papa from 'papaparse';
 import './MainPage.css';
 import Modal from 'react-modal';
+import { SubmitHandler, useForm } from "react-hook-form";
 function MainPage() {
     const navigate = useNavigate()
+    const { register: prepareModelForm, handleSubmit: handleprepareModelForm, formState: { errors: prepareModelFormError } } = useForm<PrepareModelDTO>();
     const [csvData, setCsvData] = useState<string[][]>([]);
     const [errorMessage, setErrorMessage] = useState<string>('');
     const [csvDataName, setCsvDataName] = useState<string>();
     const [isModelOpen,setIsModelOpen] = useState<boolean>(false);
+    const [epochCounter, setEpochCounter] = useState<number>(0);
+    const changeEpochCounter = (event:any) => {
+        setEpochCounter(event.target.value)
+    }
     const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
 
@@ -41,6 +47,9 @@ function MainPage() {
             setCsvDataName(storedCsvName)
         }
     }, [])
+    const prepareModel : SubmitHandler<PrepareModelDTO> = (data) => {
+        console.log(data)
+    }
     const parseCsvFile = (file: File): Promise<string[][]> => {
         return new Promise((resolve) => {
             Papa.parse(file, {
@@ -117,10 +126,21 @@ function MainPage() {
                         Model Eğitimi
                     </div>
                     <div className="card-body">
-                        Model Eğitim Input alanalrı
+                        Sınıflandırma Yapılacak Kolonu Seçin
+                        <select className="form-select mb-3" {...prepareModelForm('selectedClass')} aria-label="Default select example">
+                            {csvData[0] && Object.values(csvData[0]).map((key,index) => (
+                                <option key={index}>{key}</option>
+                            ))}
+                        </select>
+                        <div className="row">
+                            <label htmlFor="formControlRange">Epoch sayısı</label>
+                            <input type="range" {...prepareModelForm('epochNumber')} onChange={(e) => {changeEpochCounter(e)}} min={10} max={200} className="form-control-range" id="formControlRange"/>
+                            <center>{epochCounter}</center>
+                        </div>
                     </div>
-                    <button className="btn btn-primary" onClick={() => {setIsModelOpen(false)}}>Kapat</button>
+                    <button className="btn btn-primary" onClick={() => handleprepareModelForm(prepareModel)()}>Kaydet</button>
                 </div>
+                <button className="btn btn-primary mb-3 w-75" onClick={() => {setIsModelOpen(false)}}>Kapat</button>
             </Modal>
         </div>
     )
