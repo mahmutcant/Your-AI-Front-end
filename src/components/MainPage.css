@@ -103,20 +103,26 @@ h1{
       -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
   }
   .custom-modal {
-    position: absolute;
-    top: 50%;
-    left: 50%;
     transform: translate(-50%, -50%);
     background-color: white;
     border: none;
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: center;
     outline: none;
-    width: 800px;
+    width: 700px !important;
+    height: 80vh !important;
     border-radius: 10px;
     height: auto;
     opacity: 0;
     transition: opacity 0.3s ease-in-out;
+  }
+  #interlayer-plus-icon{
+    font-size: 30pt;
+    align-self: center;
+    cursor: pointer;
+    color : #0D6EFD
+  }
+  #interlayer-plus-icon:hover{
+    color: #0B5ED7;
   }

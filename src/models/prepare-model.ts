@@ -1,4 +1,4 @@
 interface PrepareModelDTO{
     selectedClass : string;
-    epochNumber : number
+    epochNumber : number;
 }
