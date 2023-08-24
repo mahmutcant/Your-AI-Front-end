@@ -137,7 +137,7 @@ function MainPage() {
                 className="custom-modal"
                 overlayClassName="custom-overlay">
                 <div className="container">
-                    <div className="col">
+                    <div className="col m-2">
                         <div className="card train-property-card">
                             Sınıflandırma Yapılacak Kolonu Seçin
                             <select className="form-select" {...prepareModelForm('selectedClass')} aria-label="Default select example">
@@ -158,18 +158,18 @@ function MainPage() {
                         </div>
                         <button className="mt-3 btn btn-primary w-100" onClick={() => { setIsModelOpen(false) }}>Kapat</button>
                     </div>
-                    <div className="col">
+                    <div className="col m-2">
                         <div className="card">
                             Ara Katmanlar
-                            <div className="card-body">
-                                <ul>
+                            <div className="card-body ">
+                                <ul className="list-group"  style={{ maxHeight: '300px', overflowY: 'auto' }}>
                                     {interlayers && Object.values(interlayers).map(key => (
-                                       <li>{key.dropoutNumber} {key.neuronNumber}</li> 
+                                       <li className="list-group-item">Dropout : {key.dropoutNumber} Nöron: {key.neuronNumber}</li> 
                                     ))}
                                 </ul>
                             </div>
+                            <button className="btn btn-primary" onClick={() => handleprepareModelForm(prepareModel)()}>Eğitimi başlat</button>
                         </div>
-                        <button className="btn btn-primary" onClick={() => handleprepareModelForm(prepareModel)()}>Eğitimi başlat</button>
                     </div>
                 </div>
                 
