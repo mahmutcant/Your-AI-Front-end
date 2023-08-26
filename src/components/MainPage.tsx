@@ -51,9 +51,9 @@ function MainPage() {
         }
         setInterlayers(prevInterlayer => [...prevInterlayer, data])
     }
-    useEffect(() => {
+    /*useEffect(() => {
         console.log(interlayers)
-    },[interlayers])
+    },[interlayers])*/
     useEffect(() => {
         const storedCsvData = localStorage.getItem("selectedcsv")
         const storedCsvName = localStorage.getItem("selectedcsvName")
@@ -63,7 +63,12 @@ function MainPage() {
         }
     }, [])
     const prepareModel: SubmitHandler<PrepareModelDTO> = (data) => {
-        console.log(data)
+        const combinedData = {...data, ["interlayers"]: {
+            ...interlayers
+        }, ["csvData"] : {
+            ...csvData
+        }};
+        console.log(combinedData)
     }
     const parseCsvFile = (file: File): Promise<string[][]> => {
         return new Promise((resolve) => {
