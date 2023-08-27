@@ -5,6 +5,7 @@ import Papa from 'papaparse';
 import './MainPage.css';
 import Modal from 'react-modal';
 import { SubmitHandler, useForm } from "react-hook-form";
+import { trainModel } from "../services/model-service";
 function MainPage() {
     const navigate = useNavigate()
     const { register: prepareModelForm, handleSubmit: handleprepareModelForm, formState: { errors: prepareModelFormError } } = useForm<PrepareModelDTO>();
@@ -51,9 +52,6 @@ function MainPage() {
         }
         setInterlayers(prevInterlayer => [...prevInterlayer, data])
     }
-    /*useEffect(() => {
-        console.log(interlayers)
-    },[interlayers])*/
     useEffect(() => {
         const storedCsvData = localStorage.getItem("selectedcsv")
         const storedCsvName = localStorage.getItem("selectedcsvName")
@@ -63,12 +61,16 @@ function MainPage() {
         }
     }, [])
     const prepareModel: SubmitHandler<PrepareModelDTO> = (data) => {
-        const combinedData = {...data, ["interlayers"]: {
+        const newCsvData = csvData.slice(1)
+        const columns = csvData[0]
+        console.log(columns)
+        /*const combinedData = {...data, ["interlayers"]: {
             ...interlayers
         }, ["csvData"] : {
-            ...csvData
+            ...newCsvData
         }};
-        console.log(combinedData)
+        trainModel(combinedData)*/
+        
     }
     const parseCsvFile = (file: File): Promise<string[][]> => {
         return new Promise((resolve) => {

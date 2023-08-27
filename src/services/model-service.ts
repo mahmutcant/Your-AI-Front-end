@@ -3,7 +3,7 @@ import defaultUrl from '../baseURL.json';
 import axios  from 'axios';
 export const baseURL = defaultUrl.baseUrl;
 export async function trainModel(data:object) {
-    /*try{
+    try{
         const response = await axios({
             method : "POST",
             url: `${baseURL}/trainModel`,
@@ -12,8 +12,9 @@ export async function trainModel(data:object) {
                 "Authorization" : `Bearer ${localStorage.getItem('token')}`
             }
         })
+        return response
     }catch(err){
         throw err;
-    }*/
+    }
     console.log(data)
 }
