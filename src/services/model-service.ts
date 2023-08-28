@@ -16,5 +16,4 @@ export async function trainModel(data:object) {
     }catch(err){
         throw err;
     }
-    console.log(data)
 }

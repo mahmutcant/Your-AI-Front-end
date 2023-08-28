@@ -23,6 +23,12 @@ function MainPage() {
     const changeEpochCounter = (event: any) => {
         setEpochCounter(event.target.value)
     }
+    const algorithms = {
+        0 : "Perceptron",
+        1 : "RNN",
+        2 : "Karar Ağaçları",
+        3 : "KNN"
+    }
     const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
 
@@ -63,13 +69,12 @@ function MainPage() {
     const prepareModel: SubmitHandler<PrepareModelDTO> = (data) => {
         const newCsvData = csvData.slice(1)
         const columns = csvData[0]
-        console.log(columns)
-        /*const combinedData = {...data, ["interlayers"]: {
+        const combinedData = {...data, ["interlayers"]: {
             ...interlayers
         }, ["csvData"] : {
             ...newCsvData
         }};
-        trainModel(combinedData)*/
+        trainModel(combinedData)
         
     }
     const parseCsvFile = (file: File): Promise<string[][]> => {
@@ -146,12 +151,22 @@ function MainPage() {
                 <div className="container">
                     <div className="col m-2">
                         <div className="card train-property-card">
+                            <div className="row m-1">
+                                Sınıflandırma Algoritması
+                                <select className="form-select" {...prepareModelForm('algorithm')} aria-label="Default select example">
+                                    {algorithms && Object.values(algorithms).map((key, index) => (
+                                        <option key={index}>{key}</option>
+                                    ))}
+                                </select>
+                            </div>
+                            <div className="row m-1">
                             Sınıflandırma Yapılacak Kolonu Seçin
                             <select className="form-select" {...prepareModelForm('selectedClass')} aria-label="Default select example">
                                 {csvData[0] && Object.values(csvData[0]).map((key, index) => (
                                     <option key={index}>{key}</option>
                                 ))}
                             </select>
+                            </div>
                             <div className="row">
                                 <label htmlFor="formControlRange">Epoch sayısı</label>
                                 <input type="range" {...prepareModelForm('epochNumber')} onChange={(e) => { changeEpochCounter(e) }} min={10} max={200} className="form-control-range" defaultValue={10} id="formControlRange" />
