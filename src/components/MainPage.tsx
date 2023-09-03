@@ -58,6 +58,12 @@ function MainPage() {
         }
         setInterlayers(prevInterlayer => [...prevInterlayer, data])
     }
+    const removeInterLayer = (indexToRemove:number) => {
+        setInterlayers(prevInterlayer => {
+            const updatedInterlayers = prevInterlayer.filter((_, index) => index !== indexToRemove);
+            return updatedInterlayers;
+        });
+    }
     useEffect(() => {
         const storedCsvData = localStorage.getItem("selectedcsv")
         const storedCsvName = localStorage.getItem("selectedcsvName")
@@ -182,9 +188,9 @@ function MainPage() {
                             Ara Katmanlar
                             <div className="card-body ">
                                 <ul className="list-group"  style={{ maxHeight: '300px', overflowY: 'auto' }}>
-                                    {interlayers && Object.values(interlayers).map(key => (
+                                    {interlayers && Object.values(interlayers).map((key,index) => (
                                        <li className="list-group-item">Dropout : {key.dropoutNumber} Nöron: {key.neuronNumber}
-                                        <i id="interlayer-delete-icon" style={{"marginLeft":"25px"}} className="fa-solid fa-delete-left"></i>
+                                        <i id="interlayer-delete-icon" style={{"marginLeft":"25px"}} onClick={() => {removeInterLayer(index)}} className="fa-solid fa-delete-left"></i>
                                        </li> 
                                     ))}
                                 </ul>
