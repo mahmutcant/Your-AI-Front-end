@@ -13,10 +13,13 @@ function MainPage() {
     const [errorMessage, setErrorMessage] = useState<string>('');
     const [csvDataName, setCsvDataName] = useState<string>();
     const [isModelOpen, setIsModelOpen] = useState<boolean>(false);
+    const [isTraining,setIsTraining] = useState<boolean>(false);
     const [epochCounter, setEpochCounter] = useState<number>(10);
     const [dropoutCounter, setDropoutCounter] = useState<number>(0);
     const [interlayers, setInterlayers] = useState<InterlayerModel[]>([]);
+    const [modelAccuracy,setModelAccuracy] = useState<TfModelAccuracy | null>();
     const inputNeuronNumber = useRef<HTMLInputElement | null>(null);
+    
     const changeDropoutValue = (event: any) => {
         setDropoutCounter(event.target.value)
     }
@@ -51,6 +54,9 @@ function MainPage() {
             }
         }
     };
+    useEffect(() => {
+        setInterlayers([])
+    },[csvData])
     const addInterlayer = () => {
         const data:InterlayerModel = {
             dropoutNumber : dropoutCounter / 100,
@@ -72,7 +78,7 @@ function MainPage() {
             setCsvDataName(storedCsvName)
         }
     }, [])
-    const prepareModel: SubmitHandler<PrepareModelDTO> = (data) => {
+    const prepareModel: SubmitHandler<PrepareModelDTO> = async (data) => {
         const columns = csvData[0]
         const combinedData = {...data, ["interlayers"]: {
             ...interlayers
@@ -80,8 +86,9 @@ function MainPage() {
             ...csvData
         }, columns
     };
-        trainModel(combinedData)
-        
+        setIsTraining(true)
+        setModelAccuracy(await trainModel(combinedData))
+        setIsTraining(false)
     }
     const parseCsvFile = (file: File): Promise<string[][]> => {
         return new Promise((resolve) => {
@@ -184,13 +191,15 @@ function MainPage() {
                         <button className="mt-3 btn btn-primary w-100" onClick={() => { setIsModelOpen(false) }}>Kapat</button>
                     </div>
                     <div className="col m-2">
+                    {isTraining ? <h6 style={{"visibility": isTraining ? "visible" : "hidden"}}>Model Eğitiliyor Lütfen Bekleyin</h6> : <h6>Model başarısı %{(modelAccuracy!.accuracy * 100).toFixed(1)} </h6>}
+                    <div className="loader" style={{"visibility": isTraining ? "visible":"hidden"}}></div>
                         <div className="card">
                             Ara Katmanlar
                             <div className="card-body ">
                                 <ul className="list-group"  style={{ maxHeight: '300px', overflowY: 'auto' }}>
                                     {interlayers && Object.values(interlayers).map((key,index) => (
                                        <li className="list-group-item">Dropout : {key.dropoutNumber} Nöron: {key.neuronNumber}
-                                        <i id="interlayer-delete-icon" style={{"marginLeft":"25px"}} onClick={() => {removeInterLayer(index)}} className="fa-solid fa-delete-left"></i>
+                                        <i id="interlayer-delete-icon" onClick={() => {removeInterLayer(index)}} className="fa-solid fa-delete-left"></i>
                                        </li> 
                                     ))}
                                 </ul>
@@ -199,7 +208,6 @@ function MainPage() {
                         </div>
                     </div>
                 </div>
-                
             </Modal>
         </div>
     )

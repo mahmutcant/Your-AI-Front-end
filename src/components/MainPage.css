@@ -111,7 +111,7 @@ h1{
     justify-content: center;
     outline: none;
     width: 700px !important;
-    height: 80vh !important;
+    height: 90vh !important;
     border-radius: 10px;
     height: auto;
     opacity: 0;
@@ -129,8 +129,62 @@ h1{
   #interlayer-delete-icon{
     align-self: center;
     cursor: pointer;
+    margin-left: 20px;
     color : #0D6EFD
   }
   #interlayer-delete-icon:hover{
     color: #0B5ED7;
+  }
+  .training-modal {
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    outline: none;
+    width: 700px !important;
+    height: 90vh !important;
+    border-radius: 10px;
+    height: auto;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+  }
+
+  .loader {
+    margin-left: 100px;
+    --c1: #25bcf7;
+    --c2: #5D54A4;
+    --c3: #6292f3;
+    --c4: #6A679E;
+    
+    width: 100px;
+    aspect-ratio: 8/5;
+    --_g: no-repeat radial-gradient(#000 68%,#0000 71%);
+    -webkit-mask: var(--_g),var(--_g),var(--_g);
+    -webkit-mask-size: 25% 40%;
+    background: 
+      conic-gradient(var(--c1) 50%,var(--c2) 0) no-repeat,
+      conic-gradient(var(--c3) 50%,var(--c4) 0) no-repeat;
+    background-size: 200% 50%;
+    animation: 
+      back 4s infinite steps(1),
+      load 2s infinite;
+  }
+  
+  @keyframes load {
+    0%    {-webkit-mask-position: 0% 0%  ,50% 0%  ,100% 0%  }
+    16.67%{-webkit-mask-position: 0% 100%,50% 0%  ,100% 0%  }
+    33.33%{-webkit-mask-position: 0% 100%,50% 100%,100% 0%  }
+    50%   {-webkit-mask-position: 0% 100%,50% 100%,100% 100%}
+    66.67%{-webkit-mask-position: 0% 0%  ,50% 100%,100% 100%}
+    83.33%{-webkit-mask-position: 0% 0%  ,50% 0%  ,100% 100%}
+    100%  {-webkit-mask-position: 0% 0%  ,50% 0%  ,100% 0%  }
+  }
+  @keyframes back {
+    0%,
+    100%{background-position: 0%   0%,0%   100%}
+    25% {background-position: 100% 0%,0%   100%}
+    50% {background-position: 100% 0%,100% 100%}
+    75% {background-position: 0%   0%,100% 100%}
   }

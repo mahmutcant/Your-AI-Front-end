@@ -13,7 +13,7 @@ export async function trainModel(data:object) {
                 "Authorization" : `Bearer ${localStorage.getItem('token')}`
             }
         })
-        return response
+        return response.data
     }catch(err){
         throw err;
     }
