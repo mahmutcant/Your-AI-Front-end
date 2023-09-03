@@ -123,6 +123,14 @@ h1{
     cursor: pointer;
     color : #0D6EFD
   }
-  #interlayer-plus-icon:hover{
+  #interlayer-delete-icon:hover{
+    color: #0B5ED7;
+  }
+  #interlayer-delete-icon{
+    align-self: center;
+    cursor: pointer;
+    color : #0D6EFD
+  }
+  #interlayer-delete-icon:hover{
     color: #0B5ED7;
   }

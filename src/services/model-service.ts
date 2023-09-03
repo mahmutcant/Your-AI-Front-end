@@ -3,6 +3,7 @@ import defaultUrl from '../baseURL.json';
 import axios  from 'axios';
 export const baseURL = defaultUrl.baseUrl;
 export async function trainModel(data:object) {
+    console.log(data)
     try{
         const response = await axios({
             method : "POST",

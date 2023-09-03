@@ -67,13 +67,13 @@ function MainPage() {
         }
     }, [])
     const prepareModel: SubmitHandler<PrepareModelDTO> = (data) => {
-        const newCsvData = csvData.slice(1)
         const columns = csvData[0]
         const combinedData = {...data, ["interlayers"]: {
             ...interlayers
         }, ["csvData"] : {
-            ...newCsvData
-        }};
+            ...csvData
+        }, columns
+    };
         trainModel(combinedData)
         
     }
@@ -89,9 +89,6 @@ function MainPage() {
     };
     const limitTextLength = (text: string, maxLength: number) => {
         return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
-    };
-    const sendJsonDataToServer = (jsonData: string[][]) => {
-
     };
     return (
         <div className="App" style={{ "background": "linear-gradiend" }}>
@@ -186,7 +183,9 @@ function MainPage() {
                             <div className="card-body ">
                                 <ul className="list-group"  style={{ maxHeight: '300px', overflowY: 'auto' }}>
                                     {interlayers && Object.values(interlayers).map(key => (
-                                       <li className="list-group-item">Dropout : {key.dropoutNumber} Nöron: {key.neuronNumber}</li> 
+                                       <li className="list-group-item">Dropout : {key.dropoutNumber} Nöron: {key.neuronNumber}
+                                        <i id="interlayer-delete-icon" style={{"marginLeft":"25px"}} className="fa-solid fa-delete-left"></i>
+                                       </li> 
                                     ))}
                                 </ul>
                             </div>
