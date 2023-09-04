@@ -191,7 +191,7 @@ function MainPage() {
                         <button className="mt-3 btn btn-primary w-100" onClick={() => { setIsModelOpen(false) }}>Kapat</button>
                     </div>
                     <div className="col m-2">
-                    {isTraining ? <h6 style={{"visibility": isTraining ? "visible" : "hidden"}}>Model Eğitiliyor Lütfen Bekleyin</h6> : <h6>Model başarısı %{(modelAccuracy!.accuracy * 100).toFixed(1)} </h6>}
+                    {isTraining ? <h6 style={{"visibility": isTraining ? "visible" : "hidden"}}>Model Eğitiliyor Lütfen Bekleyin</h6> : modelAccuracy ? <h6>Model başarısı %{(modelAccuracy!.accuracy * 100).toFixed(1)} </h6> : ""}
                     <div className="loader" style={{"visibility": isTraining ? "visible":"hidden"}}></div>
                         <div className="card">
                             Ara Katmanlar
