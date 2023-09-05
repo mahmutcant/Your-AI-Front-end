@@ -1,0 +1,29 @@
+.my-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.my-list li {
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.my-list li:hover {
+    background-color: #e0e0e0;
+}
+.noselect {
+    -webkit-touch-callout: none; 
+      -webkit-user-select: none; 
+       -khtml-user-select: none; 
+         -moz-user-select: none; 
+          -ms-user-select: none; 
+              user-select: none;
+  }
+  .scrollable-content {
+    max-height: 300px;
+    overflow-y: auto; /* Yüksekliği aştığında yatay kaydırma çubuğunu göster */
+}
