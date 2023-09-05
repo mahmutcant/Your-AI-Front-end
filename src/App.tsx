@@ -5,6 +5,7 @@ import { Route, Routes, useNavigate } from 'react-router-dom';
 import Register from './components/Register';
 import MainPage from './components/MainPage';
 import Profile from './components/Profile';
+import MyModel from './components/MyModel';
 
 function App() {
   
@@ -15,7 +16,8 @@ function App() {
         <Route path='/register' element={<Register/>}/>
         <Route path='/main' element={<MainPage/>}/>
         <Route path='/main/profile' element={<Profile/>} />
-        <Route path='/main/mymodels' element={""} />
+        <Route path='/main/mymodels' element={<MyModel/>} />
+
       </Routes>
     </div>
   );

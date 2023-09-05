@@ -161,6 +161,13 @@ function MainPage() {
                 <div className="container">
                     <div className="col m-2">
                         <div className="card train-property-card">
+                        <div className="row m-1">
+                                Modele Bir İsim Ver
+                                <input id="txtModelName" className="form-control" type="text" {...prepareModelForm("modelName",{required:true,minLength:3})}/>
+                                {prepareModelFormError.modelName && (
+                                    <span className="text-danger">Geçersiz Model Adı</span>
+                                )}
+                            </div>
                             <div className="row m-1">
                                 Sınıflandırma Algoritması
                                 <select className="form-select" {...prepareModelForm('algorithm')} aria-label="Default select example">
