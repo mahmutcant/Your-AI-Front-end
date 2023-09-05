@@ -31,3 +31,7 @@ export async function getMyModels() {
         throw err;
     }
 }
+
+export async function predictModel(data: number[]) {
+    
+}

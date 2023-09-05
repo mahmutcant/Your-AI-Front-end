@@ -3,5 +3,6 @@ interface ModelNames{
     modelSpecialName: string;
     csvData: object;
     path: string;
-    accuracyValue: number
+    accuracyValue: number;
+    selectedLabel : string;
 }

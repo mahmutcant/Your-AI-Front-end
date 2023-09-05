@@ -11,7 +11,25 @@
     border-radius: 5px;
     cursor: pointer;
 }
-
+.csv-table-out{
+    width: 60%;
+    position: absolute;
+    right: 5%;
+    top : -30px;
+    height: 10%;
+  }
+  .tbl-content-out{
+    height:100px;
+    margin-top: 0px;
+    margin-bottom: 100px;
+    border: 1px solid rgba(255,255,255,0.3);
+  }
+.predict-button{
+    position: relative;
+    margin-top: 10px;
+    margin-left: 10px;
+    padding: 10px 30px;
+}
 .my-list li:hover {
     background-color: #e0e0e0;
 }
