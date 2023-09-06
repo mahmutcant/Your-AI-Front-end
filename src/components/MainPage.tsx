@@ -26,12 +26,6 @@ function MainPage() {
     const changeEpochCounter = (event: any) => {
         setEpochCounter(event.target.value)
     }
-    const algorithms = {
-        0 : "Perceptron",
-        1 : "RNN",
-        2 : "Karar Ağaçları",
-        3 : "KNN"
-    }
     const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
 
@@ -167,14 +161,6 @@ function MainPage() {
                                 {prepareModelFormError.modelName && (
                                     <span className="text-danger">Geçersiz Model Adı</span>
                                 )}
-                            </div>
-                            <div className="row m-1">
-                                Sınıflandırma Algoritması
-                                <select className="form-select" {...prepareModelForm('algorithm')} aria-label="Default select example">
-                                    {algorithms && Object.values(algorithms).map((key, index) => (
-                                        <option key={index}>{key}</option>
-                                    ))}
-                                </select>
                             </div>
                             <div className="row m-1">
                             Sınıflandırma Yapılacak Kolonu Seçin

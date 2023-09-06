@@ -32,6 +32,21 @@ export async function getMyModels() {
     }
 }
 
-export async function predictModel(data: number[]) {
-    
+export async function predictModel(selectedModel: string,data: number[]) {
+    try{
+        const response = await axios({
+            method : "POST",
+            url : `${baseURL}/predictModel`,
+            headers : {
+                "Authorization" : `Bearer ${localStorage.getItem('token')}`
+            },
+            data : {
+                "selectedModel" : selectedModel,
+                "inputData" : data
+            }
+        })
+        return response.data
+    }catch(err){
+        throw err;
+    }
 }

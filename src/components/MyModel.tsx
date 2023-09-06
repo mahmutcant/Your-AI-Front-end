@@ -7,7 +7,7 @@ function MyModel() {
     const [myModels, setMyModels] = useState<ModelNames[] | null>([]);
     const [selectedModel, setSelectedModel] = useState<ModelNames>();
     const [inputValues, setInputValues] = useState<number[]>([]);
-    const [result, setResult] = useState<string>();
+    const [result, setResult] = useState<number>();
     useEffect(() => {
         async function getModelInfo() {
             const response = await getMyModels()
@@ -18,13 +18,15 @@ function MyModel() {
     const getAModel = (id: number) => {
         const selected = myModels!.find((model) => model.id === id)
         setSelectedModel(selected)
-        console.log(selectedModel)
+        
     }
     const limitTextLength = (text: string, maxLength: number) => {
         return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
     };
-    const doPredict = () => {
-        predictModel(inputValues)
+    const doPredict = async() => {
+        const filteredArray = inputValues.filter(item => item !== undefined);
+        const response = await predictModel(selectedModel!.modelName, filteredArray)
+        setResult(response.message)
     }
     return (
         <div>
@@ -52,10 +54,17 @@ function MyModel() {
                             <thead>
                                 <tr>
                                     {Object.values(selectedModel.csvData).map((key, index) => (
-                                        parseInt(selectedModel.selectedLabel) === index ?
-                                            <th>Sonuç Kolonu: <br />
-                                                <b>{limitTextLength(key, 8)}</b></th> :
-                                            <th>{limitTextLength(key, 8)}</th>
+                                        selectedModel.droppedColumns.includes(index) ? (
+                                            null
+                                        ) : (
+                                            parseInt(selectedModel.selectedLabel) === index ? (
+                                                <th>Sonuç Kolonu: <br />
+                                                    <b>{limitTextLength(key, 8)}</b>
+                                                </th>
+                                            ) : (
+                                                <th>{limitTextLength(key, 8)}</th>
+                                            )
+                                        )
                                     ))}
                                 </tr>
                             </thead>
@@ -66,16 +75,21 @@ function MyModel() {
                             <tbody>
                                 <tr>
                                     {Object.values(selectedModel.csvData).map((key, index) => (
-                                        parseInt(selectedModel.selectedLabel) === index ?
-                                            <td><input className="form-control" readOnly /></td> :
+                                        selectedModel.droppedColumns.includes(index) ? (
+                                            null
+                                        ) :
+                                        (
+                                            parseInt(selectedModel.selectedLabel) === index ?
+                                            <td><input className="form-control" readOnly  defaultValue={selectedModel.listOfLabels[result!]}/></td> :
                                             <td><input className="form-control"
                                                 type="number"
                                                 onChange={(e) => {
                                                     const newInputValues = [...inputValues];
-                                                    newInputValues[index] = parseInt(e.target.value);
+                                                    newInputValues[index] = parseFloat(e.target.value);
                                                     setInputValues(newInputValues);
                                                 }}
                                             /></td>
+                                        )
                                     ))}
                                 </tr>
                             </tbody>
